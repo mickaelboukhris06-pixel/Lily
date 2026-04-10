@@ -1,0 +1,56 @@
+@import "tailwindcss";
+
+/* ─── New color tokens (Tailwind generates bg-base, bg-surface, text-accent…) */
+@theme {
+  --color-base:       #08080C;
+  --color-surface:    #0F0F15;
+  --color-surface-hi: #141421;
+  --color-accent:     #7971FF;
+  --color-secondary:  #3A3A3C;
+}
+
+/* ─── Font tokens — inline because they reference existing CSS vars */
+@theme inline {
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+/* ─── Global resets ─────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: #08080C;
+  color: #FFFFFF;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* ─── Selection ─────────────────────────────────────────── */
+::selection {
+  background-color: rgba(121, 113, 255, 0.28);
+  color: #fff;
+}
+
+/* ─── Input autofill ────────────────────────────────────── */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill {
+  -webkit-text-fill-color: #fff;
+  -webkit-box-shadow: 0 0 0 1000px #141421 inset;
+  transition: background-color 9999s ease 0s;
+  caret-color: #fff;
+}
+
+/* ─── Scrollbar ─────────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 99px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.16); }
