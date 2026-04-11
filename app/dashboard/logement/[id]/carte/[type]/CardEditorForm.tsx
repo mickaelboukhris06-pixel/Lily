@@ -41,7 +41,7 @@ function Field({
         type={type}
         required={required}
         defaultValue={defaultValue}
-        className="w-full bg-surface-hi border border-white/[0.08] rounded-xl px-4 py-3 text-white text-sm placeholder-white/20 focus:outline-none focus:border-accent/60 transition-all duration-150"
+        className="w-full bg-[#111118] border border-white/[0.08] px-4 py-3 text-white text-sm placeholder-white/20 focus:outline-none focus:border-accent/60 transition-all duration-150"
         placeholder={placeholder}
       />
     </div>
@@ -76,7 +76,7 @@ function TextareaField({
         required={required}
         rows={rows}
         defaultValue={defaultValue}
-        className="w-full bg-surface-hi border border-white/[0.08] rounded-xl px-4 py-3 text-white text-sm placeholder-white/20 focus:outline-none focus:border-accent/60 transition-all duration-150 resize-none"
+        className="w-full bg-[#111118] border border-white/[0.08] px-4 py-3 text-white text-sm placeholder-white/20 focus:outline-none focus:border-accent/60 transition-all duration-150 resize-none"
         placeholder={placeholder}
       />
     </div>
@@ -100,7 +100,7 @@ function CardFields({ type, data }: { type: CardType; data: Record<string, unkno
           <TextareaField label="Instructions d'arrivée" name="instructions" defaultValue={s(data.instructions)} placeholder="La clé se trouve dans la boîte à clés au-dessus de la porte." required />
           <Field label="Code d'accès" name="code" defaultValue={s(data.code)} placeholder="1234" />
           <Field label="Localisation de la clé" name="keyLocation" defaultValue={s(data.keyLocation)} placeholder="Boîte à clés, concierge…" />
-          <Field label="Heure de check-in" name="checkInTime" defaultValue={s(data.checkInTime)} placeholder="À partir de 15h00" />
+          <Field label="Heure de check-in" name="checkInTime" defaultValue={s(data.checkInTime)} placeholder="A partir de 15h00" />
         </>
       )
     case 'checkout':
@@ -157,7 +157,7 @@ export function CardEditorForm({ propertyId, type, propertyName, existingData }:
         {propertyName}
       </Link>
 
-      <div className="flex w-fit items-center gap-2 bg-accent/[0.08] border border-accent/[0.15] rounded-lg px-3 py-1.5 mb-5 text-accent">
+      <div className="flex w-fit items-center gap-2 bg-accent/[0.08] border border-accent/[0.15] px-3 py-1.5 mb-5 text-accent">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
           <path d={config.iconPath} />
         </svg>
@@ -167,13 +167,12 @@ export function CardEditorForm({ propertyId, type, propertyName, existingData }:
       <h1 className="text-2xl font-bold text-white tracking-tight mb-1.5">Configurer {config.label}</h1>
       <p className="text-white/30 text-sm mb-8">{config.subtitle}</p>
 
-      <div className="bg-surface border border-white/[0.07] rounded-2xl p-8 space-y-5">
-        {/* The form — text fields only */}
+      <div className="bg-[#0C0C14] border border-white/[0.09] p-8 space-y-5">
         <form id={formId} action={action} className="space-y-5">
           <CardFields type={type} data={existingData} />
 
           {state?.error && (
-            <div className="bg-red-500/[0.07] border border-red-500/20 rounded-xl px-4 py-3">
+            <div className="bg-red-500/[0.07] border border-red-500/20 px-4 py-3">
               <p className="text-red-400 text-xs">{state.error}</p>
             </div>
           )}
@@ -182,20 +181,19 @@ export function CardEditorForm({ propertyId, type, propertyName, existingData }:
             <button
               type="submit"
               disabled={pending}
-              className="flex-1 bg-accent text-white font-semibold py-3 rounded-xl hover:bg-[#8880ff] transition-all duration-200 shadow-[0_0_20px_rgba(121,113,255,0.18)] hover:shadow-[0_0_28px_rgba(121,113,255,0.28)] disabled:opacity-40 disabled:cursor-not-allowed disabled:shadow-none text-sm"
+              className="flex-1 bg-accent text-white font-semibold py-3 hover:bg-[#8880ff] transition-all duration-200 shadow-[0_0_20px_rgba(121,113,255,0.25)] hover:shadow-[0_0_32px_rgba(121,113,255,0.35)] disabled:opacity-40 disabled:cursor-not-allowed disabled:shadow-none text-sm"
             >
               {pending ? 'Enregistrement…' : 'Enregistrer'}
             </button>
             <Link
               href={`/dashboard/logement/${propertyId}`}
-              className="px-5 py-3 bg-white/[0.05] border border-white/[0.07] text-white/40 font-semibold rounded-xl hover:bg-white/[0.08] hover:text-white/60 transition-all duration-150 text-sm"
+              className="px-5 py-3 bg-white/[0.05] border border-white/[0.07] text-white/40 font-semibold hover:bg-white/[0.08] hover:text-white/60 transition-all duration-150 text-sm"
             >
               Annuler
             </Link>
           </div>
         </form>
 
-        {/* PhotoUpload is OUTSIDE the <form> — avoids React server-action form interception */}
         {hasPhotos && (
           <PhotoUpload formId={formId} existing={existingPhotos} />
         )}

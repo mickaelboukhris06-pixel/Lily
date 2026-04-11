@@ -23,7 +23,6 @@ export default async function InvitationsPage() {
     orderBy: { createdAt: 'desc' },
   })
 
-  // Mark expired
   const now = new Date()
   const items = invitations.map((inv) => ({
     ...inv,
@@ -50,7 +49,7 @@ export default async function InvitationsPage() {
         {/* List */}
         <div>
           {items.length === 0 ? (
-            <div className="border border-dashed border-white/[0.08] rounded-2xl p-16 text-center">
+            <div className="border border-dashed border-white/[0.08] p-16 text-center">
               <p className="text-white/20 text-sm">Aucune invitation pour l'instant.</p>
             </div>
           ) : (
@@ -60,7 +59,7 @@ export default async function InvitationsPage() {
                 return (
                   <div
                     key={inv.id}
-                    className="bg-surface border border-white/[0.07] rounded-2xl px-5 py-4"
+                    className="bg-[#0C0C14] border border-white/[0.07] px-5 py-4"
                   >
                     <div className="flex items-start justify-between gap-4">
                       <div className="flex-1 min-w-0">
@@ -68,10 +67,10 @@ export default async function InvitationsPage() {
                           {inv.email && (
                             <p className="text-[13px] font-semibold text-white truncate">{inv.email}</p>
                           )}
-                          <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full border ${statusMeta.color}`}>
+                          <span className={`text-[10px] font-semibold px-2 py-0.5 border ${statusMeta.color}`}>
                             {statusMeta.label}
                           </span>
-                          <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full border ${
+                          <span className={`text-[10px] font-semibold px-2 py-0.5 border ${
                             inv.plan === 'paid'
                               ? 'text-accent/80 bg-accent/[0.07] border-accent/20'
                               : 'text-white/30 bg-white/[0.04] border-white/[0.07]'

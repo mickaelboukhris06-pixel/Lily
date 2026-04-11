@@ -36,7 +36,7 @@ export function ShareButton({ propertyId, existingToken }: ShareButtonProps) {
       <button
         onClick={handleGenerate}
         disabled={loading}
-        className="bg-accent text-white font-semibold px-4 py-2 rounded-xl text-xs transition-all duration-200 hover:bg-[#8880ff] disabled:opacity-40 shadow-[0_0_14px_rgba(121,113,255,0.18)] flex-shrink-0"
+        className="bg-accent text-white font-semibold px-4 py-2 text-xs transition-all duration-200 hover:bg-[#8880ff] disabled:opacity-40 shadow-[0_0_14px_rgba(121,113,255,0.2)] flex-shrink-0"
       >
         {loading ? 'Génération…' : 'Générer le lien'}
       </button>
@@ -45,15 +45,15 @@ export function ShareButton({ propertyId, existingToken }: ShareButtonProps) {
 
   return (
     <div className="flex items-center gap-2 flex-wrap">
-      <code className="text-[11px] text-white/30 bg-white/[0.04] border border-white/[0.07] px-3 py-1.5 rounded-lg font-mono truncate max-w-[180px]">
+      <code className="text-[11px] text-white/30 bg-white/[0.04] border border-white/[0.07] px-3 py-1.5 font-mono truncate max-w-[180px]">
         /g/{token}
       </code>
       <button
         onClick={handleCopy}
-        className={`flex items-center gap-1.5 text-xs font-semibold px-3.5 py-2 rounded-lg transition-all duration-200 ${
+        className={`flex items-center gap-1.5 text-xs font-semibold px-3.5 py-2 transition-all duration-200 border ${
           copied
-            ? 'bg-emerald-500/10 border border-emerald-500/20 text-emerald-400'
-            : 'bg-white/[0.06] text-white/50 hover:bg-white/[0.09] hover:text-white/70 border border-white/[0.07]'
+            ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400'
+            : 'bg-white/[0.06] text-white/50 hover:bg-white/[0.09] hover:text-white/70 border-white/[0.07]'
         }`}
       >
         {copied ? (

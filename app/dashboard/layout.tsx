@@ -8,10 +8,19 @@ export default async function DashboardLayout({ children }: { children: React.Re
   if (!session) redirect('/auth/login')
 
   return (
-    <div className="min-h-screen bg-base">
-      <header className="border-b border-white/[0.06] bg-base/80 backdrop-blur-xl sticky top-0 z-20">
+    <div className="min-h-screen bg-black relative">
+      {/* Top-left halo */}
+      <div
+        className="pointer-events-none fixed top-0 left-0 w-[900px] h-[700px] z-0"
+        style={{
+          background: 'radial-gradient(ellipse at 0% 0%, rgba(160,148,255,0.30) 0%, rgba(100,160,255,0.12) 35%, transparent 70%)',
+          filter: 'blur(60px)',
+        }}
+      />
+
+      <header className="relative z-20 border-b border-white/[0.06] bg-black/80 backdrop-blur-xl sticky top-0">
         <div className="max-w-5xl mx-auto px-6 h-14 flex items-center justify-between">
-          <Link href="/dashboard" className="text-[14px] font-semibold tracking-[0.07em] text-white">
+          <Link href="/dashboard" className="text-[14px] font-bold tracking-[0.07em] text-white">
             lily
           </Link>
           <div className="flex items-center gap-5">
@@ -41,7 +50,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
           </div>
         </div>
       </header>
-      <main className="max-w-5xl mx-auto px-6 py-12">{children}</main>
+      <main className="relative z-10 max-w-5xl mx-auto px-6 py-12">{children}</main>
     </div>
   )
 }

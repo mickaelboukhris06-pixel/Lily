@@ -43,7 +43,7 @@ export default async function PropertyPage({ params }: { params: Promise<{ id: s
       <CoverPhotoUpload propertyId={property.id} current={property.coverPhoto ?? null} />
 
       {/* Share block */}
-      <div className="bg-surface border border-white/[0.07] rounded-2xl p-6 mb-8">
+      <div className="bg-[#0C0C14] border border-white/[0.07] p-6 mb-8">
         <div className="flex items-center justify-between gap-4 flex-wrap">
           <div>
             <p className="text-[13px] font-semibold text-white mb-0.5">Lien locataire</p>
@@ -73,10 +73,10 @@ export default async function PropertyPage({ params }: { params: Promise<{ id: s
           return (
             <div
               key={type}
-              className="bg-surface border border-white/[0.07] rounded-xl px-5 py-4 flex items-center gap-4"
+              className="bg-[#0C0C14] border border-white/[0.07] px-5 py-4 flex items-center gap-4"
             >
               {/* Icon */}
-              <div className="w-8 h-8 rounded-lg bg-accent/[0.08] border border-accent/[0.12] flex items-center justify-center flex-shrink-0 text-accent">
+              <div className="w-8 h-8 bg-accent/[0.08] border border-accent/[0.12] flex items-center justify-center flex-shrink-0 text-accent">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d={config.iconPath} />
                 </svg>
@@ -95,10 +95,10 @@ export default async function PropertyPage({ params }: { params: Promise<{ id: s
                 )}
                 <Link
                   href={`/dashboard/logement/${property.id}/carte/${type}`}
-                  className={`text-xs font-semibold px-3.5 py-2 rounded-lg transition-all duration-150 flex-shrink-0 ${
+                  className={`text-xs font-semibold px-3.5 py-2 transition-all duration-150 flex-shrink-0 ${
                     isConfigured
-                      ? 'bg-white/[0.06] text-white/50 hover:bg-white/[0.09] hover:text-white/70'
-                      : 'bg-accent text-white hover:bg-[#8880ff] shadow-[0_0_12px_rgba(121,113,255,0.18)]'
+                      ? 'bg-white/[0.06] text-white/50 hover:bg-white/[0.09] hover:text-white/70 border border-white/[0.07]'
+                      : 'bg-accent text-white hover:bg-[#8880ff] shadow-[0_0_12px_rgba(121,113,255,0.2)]'
                   }`}
                 >
                   {isConfigured ? 'Modifier' : 'Configurer'}

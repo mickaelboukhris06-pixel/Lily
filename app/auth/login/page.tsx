@@ -19,9 +19,9 @@ function GoogleError() {
   const err = params.get('error')
   const msg = params.get('msg')
   if (!err) return null
-  const label = errorMessages[err] ?? `Erreur : ${err}${msg ? ` — ${decodeURIComponent(msg)}` : ''}`
+  const label = errorMessages[err] ?? `Erreur : ${err}${msg ? ` (${decodeURIComponent(msg)})` : ''}`
   return (
-    <div className="bg-red-500/[0.07] border border-red-500/20 rounded-xl px-4 py-3 mb-4">
+    <div className="bg-red-500/[0.07] border border-red-500/20 px-4 py-3 mb-4">
       <p className="text-red-400 text-xs">{label}</p>
     </div>
   )
@@ -31,17 +31,22 @@ export default function LoginPage() {
   const [state, action, pending] = useActionState(login, null)
 
   return (
-    <main className="min-h-screen bg-[#08080C] flex flex-col items-center justify-center px-6 relative overflow-hidden">
-      <div className="absolute inset-0 pointer-events-none" aria-hidden>
-        <div className="absolute top-[-20%] left-1/2 -translate-x-1/2 w-[600px] h-[500px] rounded-full bg-[radial-gradient(ellipse_at_center,rgba(121,113,255,0.06)_0%,transparent_65%)]" />
-      </div>
+    <main className="min-h-screen bg-black flex flex-col items-center justify-center px-6 relative overflow-hidden">
+      {/* Top-left halo */}
+      <div
+        className="pointer-events-none fixed top-0 left-0 w-[700px] h-[600px] z-0"
+        style={{
+          background: 'radial-gradient(ellipse at 0% 0%, rgba(160,148,255,0.45) 0%, rgba(100,160,255,0.20) 35%, transparent 70%)',
+          filter: 'blur(60px)',
+        }}
+      />
 
       <div className="relative z-10 w-full max-w-[360px]">
         <Link href="/" className="flex items-center justify-center mb-10">
-          <span className="text-[15px] font-semibold tracking-[0.07em] text-white">lily</span>
+          <span className="text-[15px] font-bold tracking-[0.07em] text-white">lily</span>
         </Link>
 
-        <div className="bg-[#0F0F15] border border-white/[0.07] rounded-2xl p-8 shadow-[0_8px_40px_rgba(0,0,0,0.35)]">
+        <div className="bg-[#0C0C14] border border-white/[0.09] p-8 shadow-[0_20px_60px_rgba(0,0,0,0.6)]">
           <div className="mb-7">
             <h1 className="text-[22px] font-bold text-white tracking-tight mb-1.5">Connexion</h1>
             <p className="text-white/35 text-sm">Accédez à votre espace propriétaire.</p>
@@ -54,7 +59,7 @@ export default function LoginPage() {
           {/* Google */}
           <a
             href="/api/auth/google"
-            className="w-full flex items-center justify-center gap-2.5 bg-white text-[#1a1a1a] font-semibold py-2.5 rounded-xl hover:bg-slate-50 transition-colors duration-150 text-sm mb-5"
+            className="w-full flex items-center justify-center gap-2.5 bg-white text-[#1a1a1a] font-semibold py-2.5 hover:bg-slate-100 transition-colors duration-150 text-sm mb-5"
           >
             <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden>
               <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
@@ -77,7 +82,7 @@ export default function LoginPage() {
               <label className="block text-xs font-medium text-white/40 mb-2 tracking-wide" htmlFor="email">Email</label>
               <input
                 id="email" name="email" type="email" required autoComplete="email"
-                className="w-full bg-[#141421] border border-white/[0.08] rounded-xl px-4 py-3 text-white text-sm placeholder-white/20 focus:outline-none focus:border-[#7971FF]/60 transition-all duration-150"
+                className="w-full bg-[#111118] border border-white/[0.08] px-4 py-3 text-white text-sm placeholder-white/20 focus:outline-none focus:border-[#7971FF]/60 transition-all duration-150"
                 placeholder="vous@example.com"
               />
             </div>
@@ -85,13 +90,13 @@ export default function LoginPage() {
               <label className="block text-xs font-medium text-white/40 mb-2 tracking-wide" htmlFor="password">Mot de passe</label>
               <input
                 id="password" name="password" type="password" required autoComplete="current-password"
-                className="w-full bg-[#141421] border border-white/[0.08] rounded-xl px-4 py-3 text-white text-sm placeholder-white/20 focus:outline-none focus:border-[#7971FF]/60 transition-all duration-150"
+                className="w-full bg-[#111118] border border-white/[0.08] px-4 py-3 text-white text-sm placeholder-white/20 focus:outline-none focus:border-[#7971FF]/60 transition-all duration-150"
                 placeholder="••••••••"
               />
             </div>
 
             {state?.error && (
-              <div className="bg-red-500/[0.07] border border-red-500/20 rounded-xl px-4 py-3">
+              <div className="bg-red-500/[0.07] border border-red-500/20 px-4 py-3">
                 <p className="text-red-400 text-xs">{state.error}</p>
               </div>
             )}
@@ -99,7 +104,7 @@ export default function LoginPage() {
             <div className="pt-1">
               <button
                 type="submit" disabled={pending}
-                className="w-full bg-[#7971FF] text-white font-semibold py-3 rounded-xl hover:bg-[#8880ff] transition-all duration-200 shadow-[0_0_20px_rgba(121,113,255,0.18)] hover:shadow-[0_0_28px_rgba(121,113,255,0.28)] disabled:opacity-40 disabled:cursor-not-allowed disabled:shadow-none text-sm"
+                className="w-full bg-[#7971FF] text-white font-semibold py-3 hover:bg-[#8880ff] transition-all duration-200 shadow-[0_0_20px_rgba(121,113,255,0.25)] hover:shadow-[0_0_32px_rgba(121,113,255,0.35)] disabled:opacity-40 disabled:cursor-not-allowed disabled:shadow-none text-sm"
               >
                 {pending ? 'Connexion…' : 'Se connecter'}
               </button>
