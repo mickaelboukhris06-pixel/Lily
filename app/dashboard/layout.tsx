@@ -2,6 +2,7 @@ import { getSession } from '@/lib/auth'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { logout } from '@/app/auth/actions'
+import { InstallButton } from './components/InstallButton'
 
 export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
   const session = await getSession()
@@ -51,6 +52,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
         </div>
       </header>
       <main className="relative z-10 max-w-5xl mx-auto px-6 py-12">{children}</main>
+      <InstallButton />
     </div>
   )
 }
