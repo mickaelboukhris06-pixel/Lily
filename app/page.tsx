@@ -165,7 +165,13 @@ export default function LandingPage() {
 
         {/* Visual strip — marquee 3D */}
         <FadeIn delay={800}>
-          <div className="mt-16 -mx-6 md:-mx-20 overflow-hidden" style={{ perspective: '1000px' }}>
+          <div className="relative mt-16 -mx-6 md:-mx-20 overflow-hidden">
+            {/* Halo glow background */}
+            <div className="absolute inset-0 pointer-events-none" style={{ background: 'radial-gradient(ellipse 70% 60% at 50% 40%, rgba(121,113,255,0.12) 0%, rgba(80,160,255,0.06) 40%, transparent 70%)' }} />
+            {/* Left / right fade */}
+            <div className="absolute inset-y-0 left-0 w-24 z-10 pointer-events-none" style={{ background: 'linear-gradient(to right, #000, transparent)' }} />
+            <div className="absolute inset-y-0 right-0 w-24 z-10 pointer-events-none" style={{ background: 'linear-gradient(to left, #000, transparent)' }} />
+            <div style={{ perspective: '1000px' }}>
             <div
               className="flex gap-4 animate-marquee"
               style={{ transform: 'rotateX(18deg) rotateY(-4deg)', transformOrigin: 'center top' }}
@@ -173,7 +179,7 @@ export default function LandingPage() {
               {[...mockupCards, ...mockupCards].map((card, i) => (
                 <div
                   key={i}
-                  className="flex-none w-[220px] bg-[#0C0C14] border border-white/[0.09] p-5 shadow-[0_20px_60px_rgba(0,0,0,0.7)] hover:border-white/20 transition-all duration-300 group cursor-default"
+                  className="flex-none w-[220px] bg-[#111118] border border-white/[0.12] p-5 shadow-[0_12px_40px_rgba(0,0,0,0.5)] hover:border-white/25 hover:bg-[#16161f] transition-all duration-300 group cursor-default"
                 >
                   <p className="text-[9px] font-bold text-white/20 uppercase tracking-[0.22em] mb-4 group-hover:text-white/50 transition-colors">{card.label}</p>
                   <div className="space-y-2">
@@ -193,6 +199,7 @@ export default function LandingPage() {
                   )}
                 </div>
               ))}
+            </div>
             </div>
           </div>
         </FadeIn>
