@@ -1,26 +1,27 @@
 import { getGuestProperty, getCardData } from '@/lib/guest'
 import { CARD_CONFIGS, CARD_ORDER } from '@/lib/cards'
-import type { CheckinData, WifiData, ContactData } from '@/lib/cards'
-import { CopyButton } from './components/CopyButton'
+import type { ContactData } from '@/lib/cards'
 import Link from 'next/link'
+
+const CARD_STYLES: Record<string, { color: string; glow: string; border: string; dot: string }> = {
+  checkin:   { color: 'from-emerald-500/30 to-emerald-500/0', glow: 'bg-emerald-500',  border: 'hover:border-emerald-500/35', dot: 'bg-emerald-400'  },
+  wifi:      { color: 'from-sky-500/30     to-sky-500/0',     glow: 'bg-sky-500',      border: 'hover:border-sky-500/35',     dot: 'bg-sky-400'      },
+  checkout:  { color: 'from-amber-500/30   to-amber-500/0',   glow: 'bg-amber-500',    border: 'hover:border-amber-500/35',   dot: 'bg-amber-400'    },
+  rules:     { color: 'from-yellow-500/30  to-yellow-500/0',  glow: 'bg-yellow-500',   border: 'hover:border-yellow-500/35',  dot: 'bg-yellow-400'   },
+  transport: { color: 'from-cyan-500/30    to-cyan-500/0',    glow: 'bg-cyan-500',     border: 'hover:border-cyan-500/35',    dot: 'bg-cyan-400'     },
+  tips:      { color: 'from-rose-500/30    to-rose-500/0',    glow: 'bg-rose-500',     border: 'hover:border-rose-500/35',    dot: 'bg-rose-400'     },
+  contact:   { color: 'from-violet-500/30  to-violet-500/0',  glow: 'bg-violet-500',   border: 'hover:border-violet-500/35',  dot: 'bg-violet-400'   },
+}
 
 export default async function GuestHomePage({ params }: { params: Promise<{ token: string }> }) {
   const { token } = await params
   const property = await getGuestProperty(token)
-
-  const checkinData  = getCardData<CheckinData>(property, 'checkin')
-  const wifiData     = getCardData<WifiData>(property, 'wifi')
-  const contactData  = getCardData<ContactData>(property, 'contact')
-
+  const contactData = getCardData<ContactData>(property, 'contact')
   const coverPhoto = property.coverPhoto ?? null
 
-  const gridCards = CARD_ORDER.filter((type) =>
-    type !== 'checkin' && type !== 'wifi' &&
+  const activeCards = CARD_ORDER.filter((type) =>
     property.cards.some((c) => c.type === type && c.enabled)
   )
-
-  const hasCheckin = property.cards.some((c) => c.type === 'checkin' && c.enabled)
-  const hasWifi    = property.cards.some((c) => c.type === 'wifi'    && c.enabled)
 
   return (
     <main
@@ -34,8 +35,8 @@ export default async function GuestHomePage({ params }: { params: Promise<{ toke
       } : { backgroundColor: '#000' }}
     >
       {coverPhoto && (
-        <div className="fixed inset-0 pointer-events-none" aria-hidden>
-          <div className="absolute inset-0 bg-black/65" />
+        <div className="fixed inset-0 pointer-events-none z-0" aria-hidden>
+          <div className="absolute inset-0 bg-black/70" />
           <div className="absolute inset-x-0 bottom-0 h-64 bg-gradient-to-t from-black to-transparent" />
         </div>
       )}
@@ -44,129 +45,62 @@ export default async function GuestHomePage({ params }: { params: Promise<{ toke
       <div
         className="fixed top-0 left-0 w-[700px] h-[600px] pointer-events-none z-0"
         style={{
-          background: 'radial-gradient(ellipse at 0% 0%, rgba(160,148,255,0.25) 0%, rgba(100,160,255,0.10) 35%, transparent 70%)',
+          background: 'radial-gradient(ellipse at 0% 0%, rgba(160,148,255,0.28) 0%, rgba(100,160,255,0.12) 35%, transparent 70%)',
           filter: 'blur(60px)',
         }}
       />
 
-      <div className="relative z-10 max-w-lg mx-auto px-4 pt-14 pb-36 space-y-3">
+      <div className="relative z-10 max-w-lg mx-auto px-4 pt-14 pb-36">
 
         {/* Header */}
-        <div className="px-1 pb-4">
+        <div className="px-1 pb-8">
           <p className="text-[10px] font-semibold text-white/25 uppercase tracking-[0.25em] mb-2">Votre séjour</p>
-          <h1 className="text-[32px] font-bold text-white leading-[1.1] tracking-tight">{property.name}</h1>
+          <h1 className="text-[36px] font-bold text-white leading-[1.05] tracking-tight">{property.name}</h1>
           {property.description && (
-            <p className="text-white/40 mt-2.5 text-sm leading-relaxed">{property.description}</p>
+            <p className="text-white/40 mt-2 text-sm leading-relaxed">{property.description}</p>
           )}
         </div>
 
-        {/* Check-in */}
-        {hasCheckin && (
-          <Link
-            href={`/g/${token}/checkin`}
-            className="block bg-[#0A1510] border border-emerald-500/20 overflow-hidden hover:border-emerald-500/40 active:scale-[0.99] transition-all duration-150 group"
-          >
-            <div className="flex items-center gap-2.5 px-5 pt-4 pb-3 border-b border-emerald-500/10">
-              <div className="w-6 h-6 bg-emerald-500/15 flex items-center justify-center flex-shrink-0">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-emerald-400">
-                  <path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4" />
-                </svg>
-              </div>
-              <span className="text-[12px] font-semibold text-emerald-400/70 tracking-wide">Check-in</span>
-              {checkinData?.checkInTime && (
-                <span className="ml-auto text-[11px] text-white/30 font-medium">A partir de {checkinData.checkInTime}</span>
-              )}
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-white/15 group-hover:text-white/40 transition-colors ml-1">
-                <path d="M5 12h14M12 5l7 7-7 7" />
-              </svg>
-            </div>
+        {/* Cards grid */}
+        <div className="grid grid-cols-2 gap-3">
+          {activeCards.map((type) => {
+            const config = CARD_CONFIGS[type as keyof typeof CARD_CONFIGS]
+            const style = CARD_STYLES[type] ?? { color: 'from-white/10 to-white/0', glow: 'bg-white', border: 'hover:border-white/20', dot: 'bg-white/40' }
 
-            {checkinData?.code ? (
-              <div className="px-5 py-5 flex items-center justify-between gap-4">
-                <div>
-                  <p className="text-[10px] font-semibold text-emerald-500/40 uppercase tracking-[0.2em] mb-2">Code d'accès</p>
-                  <p className="text-white text-[42px] font-bold font-mono tracking-[0.25em] leading-none">{checkinData.code}</p>
-                </div>
-                <CopyButton value={checkinData.code} />
-              </div>
-            ) : checkinData?.instructions ? (
-              <div className="px-5 py-4">
-                <p className="text-white/50 text-sm leading-relaxed line-clamp-2">{checkinData.instructions}</p>
-                <p className="text-emerald-500/50 text-xs mt-2 font-medium">Voir toutes les instructions →</p>
-              </div>
-            ) : null}
-          </Link>
-        )}
+            return (
+              <Link
+                key={type}
+                href={`/g/${token}/${config.route}`}
+                className={`group relative overflow-hidden bg-[#0C0C14] border border-white/[0.09] p-5 aspect-square flex flex-col justify-between transition-all duration-300 ${style.border} hover:-translate-y-0.5`}
+                style={{ boxShadow: '0 4px 24px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.05)' }}
+              >
+                {/* Glassmorphism overlay */}
+                <div className={`absolute inset-0 bg-gradient-to-br ${style.color} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
+                {/* Glow top-right */}
+                <div className={`absolute -top-4 -right-4 w-20 h-20 rounded-full blur-2xl opacity-0 group-hover:opacity-35 transition-opacity duration-500 ${style.glow}`} />
 
-        {/* Wi-Fi */}
-        {hasWifi && wifiData && (
-          <Link
-            href={`/g/${token}/wifi`}
-            className="block bg-[#080E18] border border-blue-500/20 px-5 py-5 hover:border-blue-500/40 active:scale-[0.99] transition-all duration-150 group"
-          >
-            <div className="flex items-center justify-between mb-4">
-              <div className="flex items-center gap-2.5">
-                <div className="w-7 h-7 bg-blue-500/15 flex items-center justify-center flex-shrink-0">
-                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-blue-400">
-                    <path d="M5 12.55a11 11 0 0 1 14.08 0M1.42 9a16 16 0 0 1 21.16 0M8.53 16.11a6 6 0 0 1 6.95 0M12 20h.01" />
-                  </svg>
-                </div>
-                <span className="text-[12px] font-semibold text-blue-400/70 tracking-wide">Wi-Fi</span>
-              </div>
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-white/15 group-hover:text-white/40 transition-colors">
-                <path d="M5 12h14M12 5l7 7-7 7" />
-              </svg>
-            </div>
-            <div className="flex items-end justify-between gap-4">
-              <div className="min-w-0">
-                <p className="text-white font-semibold text-[15px] truncate">{wifiData.ssid}</p>
-                <p className="text-white/30 text-[13px] font-mono mt-0.5 truncate">{wifiData.password}</p>
-              </div>
-              <CopyButton value={wifiData.password} />
-            </div>
-          </Link>
-        )}
-
-        {/* Grid 2x2 */}
-        {gridCards.length > 0 && (
-          <div className="grid grid-cols-2 gap-3 pt-1">
-            {gridCards.map((type) => {
-              const config = CARD_CONFIGS[type as keyof typeof CARD_CONFIGS]
-
-              const accentMap: Record<string, { bg: string; border: string; icon: string; label: string }> = {
-                checkout:  { bg: 'bg-[#120F00]', border: 'border-amber-500/20',  icon: 'text-amber-400',  label: 'text-amber-400/70'  },
-                rules:     { bg: 'bg-[#111100]', border: 'border-yellow-500/20', icon: 'text-yellow-400', label: 'text-yellow-400/70' },
-                transport: { bg: 'bg-[#001212]', border: 'border-cyan-500/20',   icon: 'text-cyan-400',   label: 'text-cyan-400/70'   },
-                tips:      { bg: 'bg-[#120508]', border: 'border-rose-500/20',   icon: 'text-rose-400',   label: 'text-rose-400/70'   },
-                contact:   { bg: 'bg-[#0A0012]', border: 'border-violet-500/20', icon: 'text-violet-400', label: 'text-violet-400/70' },
-              }
-              const accent = accentMap[type] ?? { bg: 'bg-[#0C0C14]', border: 'border-white/[0.07]', icon: 'text-white/50', label: 'text-white/30' }
-
-              return (
-                <Link
-                  key={type}
-                  href={`/g/${token}/${config.route}`}
-                  className={`${accent.bg} border ${accent.border} p-5 flex flex-col gap-4 hover:brightness-110 active:scale-[0.98] transition-all duration-150 group`}
-                >
-                  <div className="flex items-center justify-between">
-                    <div className="w-9 h-9 bg-white/[0.05] flex items-center justify-center">
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" className={accent.icon}>
-                        <path d={config.iconPath} />
-                      </svg>
-                    </div>
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-white/15 group-hover:text-white/40 transition-colors">
-                      <path d="M5 12h14M12 5l7 7-7 7" />
+                {/* Icon */}
+                <div className="relative z-10 flex items-center justify-between">
+                  <div className="w-8 h-8 bg-white/[0.05] border border-white/[0.08] flex items-center justify-center group-hover:border-white/15 transition-colors duration-300">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" className="text-white/40 group-hover:text-white/70 transition-colors duration-300">
+                      <path d={config.iconPath} />
                     </svg>
                   </div>
-                  <div>
-                    <p className={`text-[11px] font-bold uppercase tracking-[0.15em] mb-1 ${accent.label}`}>{config.label}</p>
-                    <p className="text-white/50 text-[12px] leading-snug">{config.subtitle}</p>
-                  </div>
-                </Link>
-              )
-            })}
-          </div>
-        )}
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-white/15 group-hover:text-white/45 transition-colors duration-300">
+                    <path d="M5 12h14M12 5l7 7-7 7" />
+                  </svg>
+                </div>
+
+                {/* Label */}
+                <div className="relative z-10">
+                  <div className={`w-1.5 h-1.5 rounded-full mb-2.5 ${style.dot} opacity-40 group-hover:opacity-100 transition-opacity duration-300`} />
+                  <p className="text-[11px] font-bold text-white/35 uppercase tracking-[0.2em] group-hover:text-white/75 transition-colors duration-300">{config.label}</p>
+                  <p className="text-white/20 text-[10px] mt-0.5 leading-snug group-hover:text-white/40 transition-colors duration-300">{config.subtitle}</p>
+                </div>
+              </Link>
+            )
+          })}
+        </div>
 
       </div>
 
