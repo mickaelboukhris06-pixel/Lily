@@ -124,8 +124,8 @@ export default function LandingPage() {
       <div
         className="pointer-events-none fixed top-0 left-0 w-[900px] h-[700px] z-0"
         style={{
-          background: 'radial-gradient(ellipse at 0% 0%, rgba(160,148,255,0.18) 0%, rgba(100,160,255,0.08) 35%, transparent 70%)',
-          filter: 'blur(40px)',
+          background: 'radial-gradient(ellipse at 0% 0%, rgba(160,148,255,0.45) 0%, rgba(100,160,255,0.20) 35%, transparent 70%)',
+          filter: 'blur(60px)',
         }}
       />
 
