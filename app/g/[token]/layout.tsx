@@ -1,3 +1,10 @@
+import { InstallButton } from './components/InstallButton'
+
 export default function GuestLayout({ children }: { children: React.ReactNode }) {
-  return <>{children}</>
+  return (
+    <>
+      <InstallButton />
+      {children}
+    </>
+  )
 }

@@ -1,0 +1,24 @@
+{
+  "name": "Lily — Votre séjour",
+  "short_name": "Lily",
+  "description": "Toutes les infos de votre séjour en un lien.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#EDE8E1",
+  "theme_color": "#08080C",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/icons/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ]
+}

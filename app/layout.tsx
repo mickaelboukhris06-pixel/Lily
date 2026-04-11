@@ -15,6 +15,12 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: 'Lily — Bienvenue dans votre logement',
   description: 'Toutes les infos de votre séjour en un lien.',
+  manifest: '/manifest.webmanifest',
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'black-translucent',
+    title: 'Lily',
+  },
 }
 
 export default function RootLayout({
@@ -24,7 +30,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fr" className={`${geistSans.variable} ${geistMono.variable} h-full`}>
-      <body className="min-h-full bg-[#08080C] text-white antialiased">{children}</body>
+      <body className="min-h-full bg-[#08080C] text-white antialiased">
+        {children}
+      </body>
     </html>
   )
 }
