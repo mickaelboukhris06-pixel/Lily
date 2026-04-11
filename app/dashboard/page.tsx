@@ -29,7 +29,7 @@ export default async function DashboardPage() {
           </p>
         </div>
         <Link
-          href="/dashboard/logement/new"
+          href={session.user.plan === 'free' && session.user.role !== 'master' ? '/api/stripe/upgrade' : '/dashboard/logement/new'}
           className="bg-accent text-white font-semibold px-4 py-2.5 rounded-xl hover:bg-[#8880ff] transition-all duration-200 flex items-center gap-2 text-xs shadow-[0_0_16px_rgba(121,113,255,0.2)] hover:shadow-[0_0_24px_rgba(121,113,255,0.3)]"
         >
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">

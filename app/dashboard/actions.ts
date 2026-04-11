@@ -15,12 +15,9 @@ export async function createProperty(_prevState: { error?: string } | null, form
 
   if (!name) return { error: 'Le nom du logement est requis.' }
 
-  // Enforce 2-property limit for free accounts
+  // Only paid users and master can create properties
   if (session.user.plan === 'free' && session.user.role !== 'master') {
-    const count = await prisma.property.count({ where: { ownerId: session.userId } })
-    if (count >= 2) {
-      return { error: 'Le plan gratuit est limité à 2 logements. Passez au plan payant pour en ajouter davantage.' }
-    }
+    return { error: 'Un abonnement est requis pour créer un logement.' }
   }
 
   const property = await prisma.property.create({

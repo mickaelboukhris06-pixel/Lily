@@ -16,8 +16,19 @@ export async function POST(request: Request) {
 
   if (event.type === 'checkout.session.completed') {
     const session = event.data.object as Stripe.Checkout.Session
-    const inviteToken = session.metadata?.inviteToken
-    if (inviteToken) {
+    const { inviteToken, userId, type } = session.metadata ?? {}
+
+    if (type === 'upgrade' && userId) {
+      // Direct upgrade — activate paid plan for the user
+      await prisma.user.update({
+        where: { id: userId },
+        data: {
+          plan: 'paid',
+          stripeCustomerId: session.customer as string,
+        },
+      })
+    } else if (inviteToken) {
+      // Invitation payment — store session ID for verification at registration
       await prisma.invitation.update({
         where: { token: inviteToken },
         data: { stripeSessionId: session.id },
