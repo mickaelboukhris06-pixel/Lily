@@ -13,7 +13,13 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Invitation invalide.' }, { status: 400 })
   }
 
-  const appUrl = process.env.APP_URL ?? 'http://localhost:3000'
+  const appUrl = process.env.APP_URL?.startsWith('http')
+    ? process.env.APP_URL
+    : process.env.VERCEL_PROJECT_PRODUCTION_URL
+    ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+    : process.env.VERCEL_URL
+    ? `https://${process.env.VERCEL_URL}`
+    : 'http://localhost:3000'
 
   const session = await stripe.checkout.sessions.create({
     mode: 'subscription',
