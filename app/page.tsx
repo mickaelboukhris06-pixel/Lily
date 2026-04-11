@@ -120,8 +120,17 @@ export default function LandingPage() {
   return (
     <main className="min-h-screen bg-black overflow-x-hidden">
 
+      {/* ── Top-left halo ── */}
+      <div
+        className="pointer-events-none fixed top-0 left-0 w-[900px] h-[700px] z-0"
+        style={{
+          background: 'radial-gradient(ellipse at 0% 0%, rgba(160,148,255,0.18) 0%, rgba(100,160,255,0.08) 35%, transparent 70%)',
+          filter: 'blur(40px)',
+        }}
+      />
+
       {/* ── Nav ── */}
-      <nav className="flex items-center justify-between px-6 md:px-12 py-6 max-w-7xl mx-auto">
+      <nav className="relative z-10 flex items-center justify-between px-6 md:px-12 py-6 max-w-7xl mx-auto">
         <FadeIn delay={600}>
           <span className="text-[15px] font-bold tracking-[0.06em] text-white">lily</span>
         </FadeIn>
@@ -136,7 +145,7 @@ export default function LandingPage() {
       </nav>
 
       {/* ── Hero ── */}
-      <section className="max-w-7xl mx-auto px-6 md:px-12 pt-16 md:pt-20 pb-0">
+      <section className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 pt-16 md:pt-20 pb-0">
         <AnimatedTitle />
         <FadeIn delay={500}>
           <p className="text-[15px] md:text-[17px] text-white/40 max-w-sm mb-10 leading-relaxed">
