@@ -20,11 +20,15 @@ export function GuestShell({
   children,
 }: GuestShellProps) {
   return (
-    <main className="min-h-screen bg-base relative overflow-hidden">
-      {/* Ambient */}
-      <div className="fixed inset-0 pointer-events-none" aria-hidden>
-        <div className="absolute top-[-25%] left-1/2 -translate-x-1/2 w-[600px] h-[500px] rounded-full bg-[radial-gradient(ellipse_at_center,rgba(121,113,255,0.05)_0%,transparent_65%)]" />
-      </div>
+    <main className="min-h-screen bg-black relative overflow-hidden">
+      {/* Top-left halo */}
+      <div
+        className="fixed top-0 left-0 w-[700px] h-[600px] pointer-events-none z-0"
+        style={{
+          background: 'radial-gradient(ellipse at 0% 0%, rgba(160,148,255,0.30) 0%, rgba(100,160,255,0.12) 35%, transparent 70%)',
+          filter: 'blur(60px)',
+        }}
+      />
 
       <div className="relative z-10 max-w-xl mx-auto px-5 pt-8 pb-20">
         {/* Back */}
@@ -40,7 +44,7 @@ export function GuestShell({
 
         {/* Header */}
         <div className="mb-10">
-          <div className={`inline-flex items-center gap-2 rounded-lg px-3 py-1.5 mb-5 text-xs font-semibold ${accentClass}`}>
+          <div className={`inline-flex items-center gap-2 px-3 py-1.5 mb-5 text-xs font-semibold ${accentClass}`}>
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               {typeof iconPath === 'string' ? <path d={iconPath} /> : iconPath}
             </svg>
@@ -67,7 +71,7 @@ export function InfoBlock({ label, value, mono }: { label: string; value: string
 
 export function Card({ children, className = '' }: { children: React.ReactNode; className?: string }) {
   return (
-    <div className={`bg-surface border border-white/[0.07] rounded-2xl p-7 ${className}`}>
+    <div className={`bg-[#0C0C14] border border-white/[0.09] p-7 ${className}`}>
       {children}
     </div>
   )

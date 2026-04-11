@@ -20,7 +20,7 @@ export default async function CheckoutPage({ params }: { params: Promise<{ token
     >
       <div className="space-y-3">
         {data.checkOutTime && (
-          <div className="bg-surface border border-white/[0.07] rounded-2xl px-5 py-4 flex items-center gap-3">
+          <div className="bg-[#0C0C14] border border-white/[0.07] px-5 py-4 flex items-center gap-3">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white/30 flex-shrink-0">
               <circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" />
             </svg>
@@ -46,7 +46,7 @@ export default async function CheckoutPage({ params }: { params: Promise<{ token
                   key={i}
                   src={url}
                   alt={`Photo ${i + 1}`}
-                  className="w-64 h-44 object-cover rounded-2xl flex-shrink-0 snap-start border border-white/[0.07]"
+                  className="w-64 h-44 object-cover flex-shrink-0 snap-start border border-white/[0.07]"
                 />
               ))}
             </div>

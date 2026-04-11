@@ -34,7 +34,7 @@ export default async function WifiPage({ params }: { params: Promise<{ token: st
         </div>
       </Card>
 
-      <div className="mt-3 bg-white/[0.03] border border-white/[0.05] rounded-xl px-5 py-4">
+      <div className="mt-3 bg-white/[0.03] border border-white/[0.05] px-5 py-4">
         <p className="text-white/30 text-xs leading-relaxed">
           Sélectionnez le réseau sur votre appareil et entrez le mot de passe ci-dessus.
         </p>
