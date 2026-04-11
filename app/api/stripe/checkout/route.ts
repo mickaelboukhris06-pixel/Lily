@@ -16,7 +16,7 @@ export async function POST(request: Request) {
   const appUrl = process.env.APP_URL ?? 'http://localhost:3000'
 
   const session = await stripe.checkout.sessions.create({
-    mode: 'payment',
+    mode: 'subscription',
     line_items: [{ price: PAID_PLAN_PRICE_ID, quantity: 1 }],
     customer_email: invitation.email ?? undefined,
     metadata: { inviteToken },
