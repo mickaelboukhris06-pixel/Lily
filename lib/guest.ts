@@ -7,7 +7,14 @@ export async function getGuestProperty(token: string) {
     where: { token },
     include: {
       property: {
-        include: {
+        select: {
+          id: true,
+          name: true,
+          description: true,
+          coverPhoto: true,
+          ownerId: true,
+          createdAt: true,
+          updatedAt: true,
           cards: {
             where: { enabled: true },
             orderBy: { order: 'asc' },
