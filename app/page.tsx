@@ -21,6 +21,16 @@ const featureItems = [
   },
 ]
 
+const mockupCards = [
+  { label: 'Check-in', lines: ['75%', '55%', '40%'], code: '4821', tag: null },
+  { label: 'Wi-Fi', lines: ['60%', '45%'], code: null, tag: 'Freebox-Studio' },
+  { label: 'Check-out', lines: ['80%', '60%', '50%', '35%'], code: null, tag: null },
+  { label: 'Règlement', lines: ['70%', '90%', '55%', '75%', '40%'], code: null, tag: null },
+  { label: 'Contact', lines: ['50%', '65%'], code: null, tag: '+33 6 12 34 56' },
+  { label: 'Transport', lines: ['85%', '60%', '45%'], code: null, tag: 'Ligne 4 - Châtelet' },
+  { label: 'Bons plans', lines: ['70%', '50%', '80%', '40%'], code: null, tag: null },
+]
+
 const cards = [
   {
     title: 'Check-in digital',
@@ -153,18 +163,37 @@ export default function LandingPage() {
           </div>
         </FadeIn>
 
-        {/* Visual strip */}
+        {/* Visual strip — marquee 3D */}
         <FadeIn delay={800}>
-          <div className="mt-16 -mx-6 md:-mx-12 flex gap-px overflow-hidden">
-            {['Check-in', 'Wi-Fi', 'Check-out', 'Règlement', 'Contact', 'Transport'].map((label) => (
-              <div
-                key={label}
-                className="group flex-1 min-w-[80px] bg-[#0A0A0A] border-t border-white/[0.06] flex flex-col justify-end px-4 md:px-6 py-6 md:py-8 h-[180px] md:h-[220px] transition-all duration-300 hover:bg-[#111118] cursor-default"
-              >
-                <div className="w-1 h-1 rounded-full bg-white/10 mb-3 group-hover:bg-white/40 transition-all duration-300 group-hover:scale-150" />
-                <p className="text-[10px] font-bold text-white/25 uppercase tracking-[0.2em] group-hover:text-white/60 transition-colors duration-300">{label}</p>
-              </div>
-            ))}
+          <div className="mt-16 -mx-6 md:-mx-20 overflow-hidden" style={{ perspective: '1000px' }}>
+            <div
+              className="flex gap-4 animate-marquee"
+              style={{ transform: 'rotateX(18deg) rotateY(-4deg)', transformOrigin: 'center top' }}
+            >
+              {[...mockupCards, ...mockupCards].map((card, i) => (
+                <div
+                  key={i}
+                  className="flex-none w-[220px] bg-[#0C0C14] border border-white/[0.09] p-5 shadow-[0_20px_60px_rgba(0,0,0,0.7)] hover:border-white/20 transition-all duration-300 group cursor-default"
+                >
+                  <p className="text-[9px] font-bold text-white/20 uppercase tracking-[0.22em] mb-4 group-hover:text-white/50 transition-colors">{card.label}</p>
+                  <div className="space-y-2">
+                    {card.lines.map((line: string, j: number) => (
+                      <div
+                        key={j}
+                        className="h-[6px] rounded-sm bg-white/[0.06] group-hover:bg-white/[0.10] transition-colors"
+                        style={{ width: line }}
+                      />
+                    ))}
+                  </div>
+                  {card.code && (
+                    <p className="mt-4 text-[22px] font-bold font-mono tracking-[0.25em] text-white/80">{card.code}</p>
+                  )}
+                  {card.tag && (
+                    <span className="mt-4 inline-block text-[9px] font-bold uppercase tracking-[0.18em] px-2 py-1 border border-white/10 text-white/30">{card.tag}</span>
+                  )}
+                </div>
+              ))}
+            </div>
           </div>
         </FadeIn>
       </section>
