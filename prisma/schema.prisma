@@ -7,14 +7,34 @@ generator client {
 }
 
 model User {
-  id         String     @id @default(cuid())
-  email      String     @unique
-  password   String?
-  googleId   String?  @unique
-  name       String
-  createdAt  DateTime   @default(now())
-  properties Property[]
-  sessions   Session[]
+  id               String       @id @default(cuid())
+  email            String       @unique
+  password         String?
+  googleId         String?      @unique
+  name             String
+  role             String       @default("member")
+  plan             String       @default("free")
+  stripeCustomerId String?
+  createdAt        DateTime     @default(now())
+  properties       Property[]
+  sessions         Session[]
+  sentInvitations  Invitation[] @relation("InvitationCreator")
+  usedInvitation   Invitation?  @relation("InvitationUser")
+}
+
+model Invitation {
+  id              String    @id @default(cuid())
+  token           String    @unique
+  email           String?
+  plan            String    @default("free")
+  status          String    @default("pending")
+  stripeSessionId String?
+  createdById     String
+  createdBy       User      @relation("InvitationCreator", fields: [createdById], references: [id], onDelete: Cascade)
+  usedById        String?   @unique
+  usedBy          User?     @relation("InvitationUser", fields: [usedById], references: [id])
+  createdAt       DateTime  @default(now())
+  expiresAt       DateTime?
 }
 
 model Session {
@@ -30,6 +50,7 @@ model Property {
   id          String      @id @default(cuid())
   name        String
   description String?
+  coverPhoto  String?
   ownerId     String
   owner       User        @relation(fields: [ownerId], references: [id], onDelete: Cascade)
   cards       Card[]

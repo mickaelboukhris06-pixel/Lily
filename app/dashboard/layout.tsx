@@ -15,6 +15,17 @@ export default async function DashboardLayout({ children }: { children: React.Re
             lily
           </Link>
           <div className="flex items-center gap-5">
+            {session.user.role === 'master' && (
+              <Link
+                href="/dashboard/invitations"
+                className="text-white/30 hover:text-white/60 text-xs transition-colors duration-150 hidden sm:flex items-center gap-1.5"
+              >
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" />
+                </svg>
+                Invitations
+              </Link>
+            )}
             <span className="text-white/30 text-xs hidden sm:block">{session.user.name}</span>
             <form action={logout}>
               <button

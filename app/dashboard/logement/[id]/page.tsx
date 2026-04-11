@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { CARD_CONFIGS, CARD_ORDER } from '@/lib/cards'
 import { ShareButton } from './ShareButton'
 import { ToggleCardButton } from './ToggleCardButton'
+import { CoverPhotoUpload } from './CoverPhotoUpload'
 
 export default async function PropertyPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
@@ -37,6 +38,9 @@ export default async function PropertyPage({ params }: { params: Promise<{ id: s
           <p className="text-white/30 text-sm mt-1.5">{property.description}</p>
         )}
       </div>
+
+      {/* Cover photo */}
+      <CoverPhotoUpload propertyId={property.id} current={property.coverPhoto ?? null} />
 
       {/* Share block */}
       <div className="bg-surface border border-white/[0.07] rounded-2xl p-6 mb-8">
@@ -85,13 +89,13 @@ export default async function PropertyPage({ params }: { params: Promise<{ id: s
               </div>
 
               {/* Actions */}
-              <div className="flex items-center gap-3 flex-shrink-0">
+              <div className="flex items-center gap-4 flex-shrink-0">
                 {isConfigured && (
                   <ToggleCardButton propertyId={property.id} type={type} enabled={isEnabled} />
                 )}
                 <Link
                   href={`/dashboard/logement/${property.id}/carte/${type}`}
-                  className={`text-xs font-semibold px-3.5 py-2 rounded-lg transition-all duration-150 ${
+                  className={`text-xs font-semibold px-3.5 py-2 rounded-lg transition-all duration-150 flex-shrink-0 ${
                     isConfigured
                       ? 'bg-white/[0.06] text-white/50 hover:bg-white/[0.09] hover:text-white/70'
                       : 'bg-accent text-white hover:bg-[#8880ff] shadow-[0_0_12px_rgba(121,113,255,0.18)]'

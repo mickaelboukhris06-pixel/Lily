@@ -15,6 +15,14 @@ export async function createProperty(_prevState: { error?: string } | null, form
 
   if (!name) return { error: 'Le nom du logement est requis.' }
 
+  // Enforce 2-property limit for free accounts
+  if (session.user.plan === 'free' && session.user.role !== 'master') {
+    const count = await prisma.property.count({ where: { ownerId: session.userId } })
+    if (count >= 2) {
+      return { error: 'Le plan gratuit est limité à 2 logements. Passez au plan payant pour en ajouter davantage.' }
+    }
+  }
+
   const property = await prisma.property.create({
     data: {
       name,
@@ -91,10 +99,18 @@ export async function saveCard(
   })
   if (!property) return { error: 'Logement introuvable.' }
 
-  const data: Record<string, string> = {}
+  const data: Record<string, unknown> = {}
   formData.forEach((value, key) => {
-    if (typeof value === 'string') data[key] = value
+    if (typeof value === 'string' && key !== 'photo_keep' && key !== 'photos') {
+      data[key] = value
+    }
   })
+
+  // Photos already uploaded client-side — just collect the URLs
+  const keptPhotos = (formData.getAll('photo_keep') as string[]).filter(Boolean)
+  const newPhotos = (formData.getAll('photos') as string[]).filter(Boolean)
+  const allPhotos = [...keptPhotos, ...newPhotos]
+  if (allPhotos.length > 0) data.photos = allPhotos
 
   await prisma.card.upsert({
     where: { propertyId_type: { propertyId, type } },
@@ -104,4 +120,16 @@ export async function saveCard(
 
   revalidatePath(`/dashboard/logement/${propertyId}`)
   redirect(`/dashboard/logement/${propertyId}`)
+}
+
+export async function updateCoverPhoto(propertyId: string, photoUrl: string | null) {
+  const session = await getSession()
+  if (!session) redirect('/auth/login')
+
+  await prisma.property.update({
+    where: { id: propertyId, ownerId: session.userId },
+    data: { coverPhoto: photoUrl },
+  })
+
+  revalidatePath(`/dashboard/logement/${propertyId}`)
 }

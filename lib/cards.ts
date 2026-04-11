@@ -10,11 +10,13 @@ export interface CheckinData {
   code?: string
   keyLocation?: string
   checkInTime?: string
+  photos?: string[]
 }
 
 export interface CheckoutData {
   instructions: string
   checkOutTime?: string
+  photos?: string[]
 }
 
 export interface RulesData {

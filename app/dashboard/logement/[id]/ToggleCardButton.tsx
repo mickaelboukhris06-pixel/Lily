@@ -24,15 +24,15 @@ export function ToggleCardButton({ propertyId, type, enabled }: ToggleCardButton
       onClick={handleToggle}
       disabled={isPending}
       title={isEnabled ? 'Désactiver' : 'Activer'}
-      className={`w-10 h-5 rounded-full transition-all duration-200 relative disabled:opacity-40 flex-shrink-0 ${
+      className={`w-11 h-6 rounded-full transition-all duration-200 relative disabled:opacity-40 flex-shrink-0 overflow-hidden ${
         isEnabled
           ? 'bg-accent shadow-[0_0_8px_rgba(121,113,255,0.35)]'
           : 'bg-white/[0.1]'
       }`}
     >
       <span
-        className={`absolute top-0.5 w-4 h-4 rounded-full bg-white shadow-sm transition-transform duration-200 ${
-          isEnabled ? 'translate-x-5' : 'translate-x-0.5'
+        className={`absolute top-1 w-4 h-4 rounded-full bg-white shadow-sm transition-transform duration-200 ${
+          isEnabled ? 'translate-x-6' : 'translate-x-1'
         }`}
       />
     </button>
