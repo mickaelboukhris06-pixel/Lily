@@ -1,10 +1,11 @@
 import type { Metadata } from 'next'
-import { Geist, Geist_Mono } from 'next/font/google'
+import { Be_Vietnam_Pro, Geist_Mono } from 'next/font/google'
 import './globals.css'
 
-const geistSans = Geist({
-  variable: '--font-geist-sans',
+const beVietnamPro = Be_Vietnam_Pro({
   subsets: ['latin'],
+  weight: ['300', '400', '500', '600', '700', '800'],
+  variable: '--font-be-vietnam-pro',
 })
 
 const geistMono = Geist_Mono({
@@ -13,7 +14,7 @@ const geistMono = Geist_Mono({
 })
 
 export const metadata: Metadata = {
-  title: 'Lily — Bienvenue dans votre logement',
+  title: 'Lily',
   description: 'Toutes les infos de votre séjour en un lien.',
   manifest: '/manifest.webmanifest',
   appleWebApp: {
@@ -29,7 +30,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="fr" className={`${geistSans.variable} ${geistMono.variable} h-full`}>
+    <html lang="fr" className={`${beVietnamPro.variable} ${geistMono.variable} h-full`}>
       <body className="min-h-full bg-[#08080C] text-white antialiased">
         {children}
       </body>

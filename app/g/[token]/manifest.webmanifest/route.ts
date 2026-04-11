@@ -5,7 +5,7 @@ export async function GET(
   const { token } = await params
 
   return Response.json({
-    name: 'Lily — Votre séjour',
+    name: 'Lily',
     short_name: 'Lily',
     description: 'Toutes les infos de votre séjour en un lien.',
     start_url: `/g/${token}`,

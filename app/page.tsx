@@ -86,7 +86,7 @@ export default function LandingPage() {
 
         <p className="text-[17px] text-white/45 max-w-lg mx-auto mb-12 leading-relaxed">
           Une page d'accueil personnalisée pour votre logement.<br className="hidden sm:block" />
-          Wi-Fi, check-in, règlement — tout en un seul lien.
+          Wi-Fi, check-in, règlement. Tout en un seul lien.
         </p>
 
         <div className="flex flex-col sm:flex-row gap-3 justify-center">
@@ -94,7 +94,7 @@ export default function LandingPage() {
             href="/auth/register"
             className="bg-accent text-white font-semibold px-8 py-3.5 rounded-xl hover:bg-[#8880ff] transition-all duration-200 shadow-[0_0_28px_rgba(121,113,255,0.22)] hover:shadow-[0_0_36px_rgba(121,113,255,0.32)] text-[15px]"
           >
-            Créer mon espace — c'est gratuit
+            Créer mon espace
           </Link>
           <Link
             href="/auth/login"
@@ -162,7 +162,7 @@ export default function LandingPage() {
               href="/auth/register"
               className="bg-accent text-white font-semibold px-8 py-3.5 rounded-xl hover:bg-[#8880ff] transition-all duration-200 shadow-[0_0_28px_rgba(121,113,255,0.25)] hover:shadow-[0_0_40px_rgba(121,113,255,0.35)] text-[15px] inline-block"
             >
-              Créer mon espace — c'est gratuit
+              Créer mon espace
             </Link>
           </div>
         </div>

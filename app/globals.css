@@ -9,9 +9,9 @@
   --color-secondary:  #3A3A3C;
 }
 
-/* ─── Font tokens — inline because they reference existing CSS vars */
+/* ─── Font tokens */
 @theme inline {
-  --font-sans: var(--font-geist-sans);
+  --font-sans: var(--font-be-vietnam-pro);
   --font-mono: var(--font-geist-mono);
 }
 
