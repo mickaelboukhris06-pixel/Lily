@@ -19,6 +19,11 @@ export async function getGuestProperty(token: string) {
             where: { enabled: true },
             orderBy: { order: 'asc' },
           },
+          customCards: {
+            where: { enabled: true },
+            orderBy: { order: 'asc' },
+            include: { items: { orderBy: { order: 'asc' } } },
+          },
         },
       },
     },

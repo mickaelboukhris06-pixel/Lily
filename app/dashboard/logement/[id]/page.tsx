@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { CARD_CONFIGS, CARD_ORDER } from '@/lib/cards'
 import { ShareButton } from './ShareButton'
 import { ToggleCardButton } from './ToggleCardButton'
+import { ToggleCustomCardButton } from './ToggleCustomCardButton'
 import { CoverPhotoUpload } from './CoverPhotoUpload'
 
 export default async function PropertyPage({ params }: { params: Promise<{ id: string }> }) {
@@ -14,7 +15,14 @@ export default async function PropertyPage({ params }: { params: Promise<{ id: s
 
   const property = await prisma.property.findFirst({
     where: { id, ownerId: session.userId },
-    include: { cards: true, guestToken: true },
+    include: {
+      cards: true,
+      guestToken: true,
+      customCards: {
+        orderBy: { order: 'asc' },
+        include: { _count: { select: { items: true } } },
+      },
+    },
   })
   if (!property) notFound()
 
@@ -108,6 +116,50 @@ export default async function PropertyPage({ params }: { params: Promise<{ id: s
           )
         })}
       </div>
+
+      {/* Custom cards section */}
+      <div className="mt-10 mb-5 flex items-end justify-between">
+        <div>
+          <h2 className="text-sm font-semibold text-white">Cartes personnalisées</h2>
+          <p className="text-white/25 text-xs mt-1">Créez vos propres cartes d'information.</p>
+        </div>
+        <Link
+          href={`/dashboard/logement/${property.id}/custom/new`}
+          className="bg-accent text-white text-xs font-semibold px-3.5 py-2 hover:bg-[#8880ff] transition-all shadow-[0_0_12px_rgba(121,113,255,0.2)]"
+        >
+          + Nouvelle carte
+        </Link>
+      </div>
+
+      {property.customCards.length === 0 ? (
+        <div className="border border-dashed border-white/[0.08] p-10 text-center">
+          <p className="text-white/20 text-sm">Aucune carte personnalisée.</p>
+          <p className="text-white/15 text-xs mt-1">Créez une carte pour ajouter des informations spécifiques à ce logement.</p>
+        </div>
+      ) : (
+        <div className="space-y-2">
+          {property.customCards.map((cc) => (
+            <div key={cc.id} className="bg-[#0C0C14] border border-white/[0.07] px-5 py-4 flex items-center gap-4">
+              <div className="w-8 h-8 bg-white/[0.04] border border-white/[0.08] flex items-center justify-center flex-shrink-0 text-lg">
+                {cc.emoji ?? '📋'}
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="text-[13px] font-semibold text-white">{cc.title}</p>
+                <p className="text-white/25 text-xs">{cc._count.items} élément{cc._count.items !== 1 ? 's' : ''}</p>
+              </div>
+              <div className="flex items-center gap-4 flex-shrink-0">
+                <ToggleCustomCardButton cardId={cc.id} enabled={cc.enabled} />
+                <Link
+                  href={`/dashboard/logement/${property.id}/custom/${cc.id}`}
+                  className="bg-white/[0.06] text-white/50 hover:bg-white/[0.09] hover:text-white/70 border border-white/[0.07] text-xs font-semibold px-3.5 py-2 transition-all duration-150"
+                >
+                  Modifier
+                </Link>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   )
 }

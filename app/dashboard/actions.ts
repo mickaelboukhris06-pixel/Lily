@@ -130,3 +130,114 @@ export async function updateCoverPhoto(propertyId: string, photoUrl: string | nu
 
   revalidatePath(`/dashboard/logement/${propertyId}`)
 }
+
+// ── Custom Cards ────────────────────────────────────────────
+
+export async function createCustomCard(_prev: { error?: string } | null, formData: FormData) {
+  const session = await getSession()
+  if (!session) redirect('/auth/login')
+
+  const propertyId = formData.get('propertyId') as string
+  const title = (formData.get('title') as string)?.trim()
+  const emoji = (formData.get('emoji') as string)?.trim() || null
+
+  if (!title) return { error: 'Un titre est requis.' }
+
+  const property = await prisma.property.findFirst({ where: { id: propertyId, ownerId: session.userId } })
+  if (!property) return { error: 'Logement introuvable.' }
+
+  const card = await prisma.customCard.create({
+    data: { propertyId, title, emoji },
+  })
+
+  revalidatePath(`/dashboard/logement/${propertyId}`)
+  redirect(`/dashboard/logement/${propertyId}/custom/${card.id}`)
+}
+
+export async function updateCustomCard(_prev: { error?: string } | null, formData: FormData) {
+  const session = await getSession()
+  if (!session) redirect('/auth/login')
+
+  const cardId = formData.get('cardId') as string
+  const title = (formData.get('title') as string)?.trim()
+  const emoji = (formData.get('emoji') as string)?.trim() || null
+
+  if (!title) return { error: 'Un titre est requis.' }
+
+  const card = await prisma.customCard.findFirst({
+    where: { id: cardId, property: { ownerId: session.userId } },
+  })
+  if (!card) return { error: 'Carte introuvable.' }
+
+  await prisma.customCard.update({ where: { id: cardId }, data: { title, emoji } })
+  revalidatePath(`/dashboard/logement/${card.propertyId}`)
+  return { error: undefined }
+}
+
+export async function deleteCustomCard(cardId: string) {
+  const session = await getSession()
+  if (!session) return
+
+  const card = await prisma.customCard.findFirst({
+    where: { id: cardId, property: { ownerId: session.userId } },
+  })
+  if (!card) return
+
+  await prisma.customCard.delete({ where: { id: cardId } })
+  revalidatePath(`/dashboard/logement/${card.propertyId}`)
+  redirect(`/dashboard/logement/${card.propertyId}`)
+}
+
+export async function toggleCustomCard(cardId: string, enabled: boolean) {
+  const session = await getSession()
+  if (!session) return
+
+  await prisma.customCard.updateMany({
+    where: { id: cardId, property: { ownerId: session.userId } },
+    data: { enabled },
+  })
+
+  const card = await prisma.customCard.findFirst({ where: { id: cardId } })
+  if (card) revalidatePath(`/dashboard/logement/${card.propertyId}`)
+}
+
+export async function createCustomCardItem(_prev: { error?: string } | null, formData: FormData) {
+  const session = await getSession()
+  if (!session) redirect('/auth/login')
+
+  const customCardId = formData.get('customCardId') as string
+  const title = (formData.get('title') as string)?.trim()
+  const content = (formData.get('content') as string)?.trim() || null
+
+  if (!title) return { error: 'Un titre est requis.' }
+
+  const card = await prisma.customCard.findFirst({
+    where: { id: customCardId, property: { ownerId: session.userId } },
+  })
+  if (!card) return { error: 'Carte introuvable.' }
+
+  const count = await prisma.customCardItem.count({ where: { customCardId } })
+  await prisma.customCardItem.create({ data: { customCardId, title, content, order: count } })
+
+  revalidatePath(`/dashboard/logement/${card.propertyId}/custom/${customCardId}`)
+  return { error: undefined }
+}
+
+export async function deleteCustomCardItem(itemId: string) {
+  const session = await getSession()
+  if (!session) return
+
+  const item = await prisma.customCardItem.findFirst({
+    where: { id: itemId },
+    include: { customCard: true },
+  })
+  if (!item) return
+
+  const card = await prisma.customCard.findFirst({
+    where: { id: item.customCardId, property: { ownerId: session.userId } },
+  })
+  if (!card) return
+
+  await prisma.customCardItem.delete({ where: { id: itemId } })
+  revalidatePath(`/dashboard/logement/${card.propertyId}/custom/${item.customCardId}`)
+}

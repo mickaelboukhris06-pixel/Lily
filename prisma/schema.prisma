@@ -47,16 +47,40 @@ model Session {
 }
 
 model Property {
-  id          String      @id @default(cuid())
+  id          String       @id @default(cuid())
   name        String
   description String?
   coverPhoto  String?
   ownerId     String
-  owner       User        @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  owner       User         @relation(fields: [ownerId], references: [id], onDelete: Cascade)
   cards       Card[]
+  customCards CustomCard[]
   guestToken  GuestToken?
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime    @updatedAt
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+}
+
+model CustomCard {
+  id         String           @id @default(cuid())
+  propertyId String
+  property   Property         @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  title      String
+  emoji      String?
+  enabled    Boolean          @default(true)
+  order      Int              @default(0)
+  items      CustomCardItem[]
+  createdAt  DateTime         @default(now())
+  updatedAt  DateTime         @updatedAt
+}
+
+model CustomCardItem {
+  id           String     @id @default(cuid())
+  customCardId String
+  customCard   CustomCard @relation(fields: [customCardId], references: [id], onDelete: Cascade)
+  title        String
+  content      String?
+  order        Int        @default(0)
+  createdAt    DateTime   @default(now())
 }
 
 model Card {
