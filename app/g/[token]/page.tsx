@@ -3,15 +3,6 @@ import { CARD_CONFIGS, CARD_ORDER } from '@/lib/cards'
 import type { ContactData } from '@/lib/cards'
 import Link from 'next/link'
 
-const CARD_ANNOTATIONS: Record<string, { text: string; rotate: string }> = {
-  checkin:   { text: 'Pour entrer dans votre logement',      rotate: '-rotate-1'   },
-  wifi:      { text: 'Le mot de passe pour se connecter',    rotate: 'rotate-1'    },
-  checkout:  { text: 'Tout pour partir sans stress',         rotate: '-rotate-[1.5deg]' },
-  rules:     { text: 'Les règles à respecter',               rotate: 'rotate-[1.5deg]'  },
-  transport: { text: 'Pour rejoindre le logement facilement', rotate: '-rotate-1'  },
-  tips:      { text: 'Les meilleures adresses du coin',      rotate: 'rotate-1'    },
-  contact:   { text: 'Pour nous joindre facilement',         rotate: '-rotate-[1.5deg]' },
-}
 
 const CARD_STYLES: Record<string, { color: string; glow: string; border: string; dot: string }> = {
   checkin:   { color: 'from-emerald-500/30 to-emerald-500/0', glow: 'bg-emerald-500',  border: 'hover:border-emerald-500/35', dot: 'bg-emerald-400'  },
@@ -108,23 +99,6 @@ export default async function GuestHomePage({ params }: { params: Promise<{ toke
                   <p className="text-white/20 text-[10px] mt-0.5 leading-snug group-hover:text-white/40 transition-colors duration-300">{config.subtitle}</p>
                 </div>
               </Link>
-              {/* Handwritten annotation + arrow */}
-              {CARD_ANNOTATIONS[type] && (
-                <div className={`flex items-start gap-1 px-1 ${CARD_ANNOTATIONS[type].rotate}`}>
-                  {/* Hand-drawn arrow pointing up to the card */}
-                  <svg width="18" height="26" viewBox="0 0 18 26" fill="none" className="flex-shrink-0 text-white/30 mt-0.5">
-                    <path d="M9 25 C8 19 7 13 5 4" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"/>
-                    <path d="M5 4 L1 9" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"/>
-                    <path d="M5 4 L10 7" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"/>
-                  </svg>
-                  <p
-                    className="text-white/35 text-[15px] leading-snug"
-                    style={{ fontFamily: 'var(--font-caveat)' }}
-                  >
-                    {CARD_ANNOTATIONS[type].text}
-                  </p>
-                </div>
-              )}
               </div>
             )
           })}
