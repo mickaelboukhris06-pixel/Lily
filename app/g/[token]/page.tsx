@@ -3,6 +3,16 @@ import { CARD_CONFIGS, CARD_ORDER } from '@/lib/cards'
 import type { ContactData } from '@/lib/cards'
 import Link from 'next/link'
 
+const CARD_ANNOTATIONS: Record<string, { text: string; rotate: string }> = {
+  checkin:   { text: 'Pour entrer dans votre logement',      rotate: '-rotate-1'   },
+  wifi:      { text: 'Le mot de passe pour se connecter',    rotate: 'rotate-1'    },
+  checkout:  { text: 'Tout pour partir sans stress',         rotate: '-rotate-[1.5deg]' },
+  rules:     { text: 'Les règles à respecter',               rotate: 'rotate-[1.5deg]'  },
+  transport: { text: 'Pour rejoindre le logement facilement', rotate: '-rotate-1'  },
+  tips:      { text: 'Les meilleures adresses du coin',      rotate: 'rotate-1'    },
+  contact:   { text: 'Pour nous joindre facilement',         rotate: '-rotate-[1.5deg]' },
+}
+
 const CARD_STYLES: Record<string, { color: string; glow: string; border: string; dot: string }> = {
   checkin:   { color: 'from-emerald-500/30 to-emerald-500/0', glow: 'bg-emerald-500',  border: 'hover:border-emerald-500/35', dot: 'bg-emerald-400'  },
   wifi:      { color: 'from-sky-500/30     to-sky-500/0',     glow: 'bg-sky-500',      border: 'hover:border-sky-500/35',     dot: 'bg-sky-400'      },
@@ -68,8 +78,8 @@ export default async function GuestHomePage({ params }: { params: Promise<{ toke
             const style = CARD_STYLES[type] ?? { color: 'from-white/10 to-white/0', glow: 'bg-white', border: 'hover:border-white/20', dot: 'bg-white/40' }
 
             return (
+              <div key={type} className="flex flex-col gap-2">
               <Link
-                key={type}
                 href={`/g/${token}/${config.route}`}
                 className={`group relative overflow-hidden bg-[#0C0C14] border border-white/[0.09] p-5 aspect-square flex flex-col justify-between transition-all duration-300 ${style.border} hover:-translate-y-0.5`}
                 style={{ boxShadow: '0 4px 24px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.05)' }}
@@ -98,6 +108,16 @@ export default async function GuestHomePage({ params }: { params: Promise<{ toke
                   <p className="text-white/20 text-[10px] mt-0.5 leading-snug group-hover:text-white/40 transition-colors duration-300">{config.subtitle}</p>
                 </div>
               </Link>
+              {/* Handwritten annotation */}
+              {CARD_ANNOTATIONS[type] && (
+                <p
+                  className={`text-white/35 text-[15px] leading-snug px-1 ${CARD_ANNOTATIONS[type].rotate}`}
+                  style={{ fontFamily: 'var(--font-caveat)' }}
+                >
+                  {CARD_ANNOTATIONS[type].text}
+                </p>
+              )}
+              </div>
             )
           })}
         </div>

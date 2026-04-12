@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Be_Vietnam_Pro, Geist_Mono } from 'next/font/google'
+import { Be_Vietnam_Pro, Geist_Mono, Caveat } from 'next/font/google'
 import './globals.css'
 
 const beVietnamPro = Be_Vietnam_Pro({
@@ -11,6 +11,12 @@ const beVietnamPro = Be_Vietnam_Pro({
 const geistMono = Geist_Mono({
   variable: '--font-geist-mono',
   subsets: ['latin'],
+})
+
+const caveat = Caveat({
+  subsets: ['latin'],
+  weight: ['400', '500'],
+  variable: '--font-caveat',
 })
 
 export const metadata: Metadata = {
@@ -30,7 +36,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="fr" className={`${beVietnamPro.variable} ${geistMono.variable} h-full`}>
+    <html lang="fr" className={`${beVietnamPro.variable} ${geistMono.variable} ${caveat.variable} h-full`}>
       <body className="min-h-full bg-[#08080C] text-white antialiased">
         {children}
       </body>

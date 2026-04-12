@@ -13,6 +13,7 @@
 @theme inline {
   --font-sans: var(--font-be-vietnam-pro);
   --font-mono: var(--font-geist-mono);
+  --font-hand: var(--font-caveat);
 }
 
 /* ─── Global resets ─────────────────────────────────────── */
