@@ -108,14 +108,22 @@ export default async function GuestHomePage({ params }: { params: Promise<{ toke
                   <p className="text-white/20 text-[10px] mt-0.5 leading-snug group-hover:text-white/40 transition-colors duration-300">{config.subtitle}</p>
                 </div>
               </Link>
-              {/* Handwritten annotation */}
+              {/* Handwritten annotation + arrow */}
               {CARD_ANNOTATIONS[type] && (
-                <p
-                  className={`text-white/35 text-[15px] leading-snug px-1 ${CARD_ANNOTATIONS[type].rotate}`}
-                  style={{ fontFamily: 'var(--font-caveat)' }}
-                >
-                  {CARD_ANNOTATIONS[type].text}
-                </p>
+                <div className={`flex items-start gap-1 px-1 ${CARD_ANNOTATIONS[type].rotate}`}>
+                  {/* Hand-drawn arrow pointing up to the card */}
+                  <svg width="18" height="26" viewBox="0 0 18 26" fill="none" className="flex-shrink-0 text-white/30 mt-0.5">
+                    <path d="M9 25 C8 19 7 13 5 4" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"/>
+                    <path d="M5 4 L1 9" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"/>
+                    <path d="M5 4 L10 7" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"/>
+                  </svg>
+                  <p
+                    className="text-white/35 text-[15px] leading-snug"
+                    style={{ fontFamily: 'var(--font-caveat)' }}
+                  >
+                    {CARD_ANNOTATIONS[type].text}
+                  </p>
+                </div>
               )}
               </div>
             )
